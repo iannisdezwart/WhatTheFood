@@ -30,7 +30,7 @@ class HomePage extends StatelessWidget
 				),
 				shadowColor: Colors.transparent,
 			),
-			body: Column(
+			body: ListView(
 				children: [
 					const Padding(padding: EdgeInsets.only(top: 60.0)),
 					const DishOfTheDay(dish: Dish(

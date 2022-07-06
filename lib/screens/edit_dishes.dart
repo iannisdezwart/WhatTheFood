@@ -47,7 +47,7 @@ class _EditDishesState extends State<EditDishes> {
 				),
 				shadowColor: Colors.transparent,
 			),
-			body: Column(
+			body: ListView(
 				children: [
 					Center(
 						child: ReorderableListView(
@@ -68,7 +68,7 @@ class _EditDishesState extends State<EditDishes> {
 			),
 			floatingActionButton: FloatingActionButton(
 				onPressed: () {
-					Navigator.push(context, MaterialPageRoute(builder: (context) => AddDish()));
+					Navigator.push(context, MaterialPageRoute(builder: (context) => const AddDish()));
 				},
 				backgroundColor: Colours.green,
 				child: const Icon(Icons.add),

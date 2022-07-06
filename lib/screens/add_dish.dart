@@ -37,39 +37,37 @@ class _AddDishState extends State<AddDish>
 				),
 				shadowColor: Colors.transparent,
 			),
-			body: Padding(
+			body: ListView(
 				padding: const EdgeInsets.symmetric(horizontal: 20),
-				child: Column(
-					children: [
-						const Padding(padding: EdgeInsets.only(top: 60.0)),
-						const PhotoPicker(),
-						const Padding(padding: EdgeInsets.only(top: 20.0)),
-						const TextInput(hint: 'Naam'),
-						const Padding(padding: EdgeInsets.only(top: 20.0)),
-						TextButton(
-							onPressed: () {},
-							style: ButtonStyle(
-								backgroundColor: MaterialStateProperty.all(Colours.green),
-								foregroundColor: MaterialStateProperty.all(Colors.white),
-								shape: MaterialStateProperty.all(RoundedRectangleBorder(
-									borderRadius: BorderRadius.circular(15.0),
-								)),
-								padding: MaterialStateProperty.all(
-									const EdgeInsets.symmetric(
-										horizontal: 20.0,
-										vertical: 10.0
-									)
-								),
+				children: [
+					const Padding(padding: EdgeInsets.only(top: 60.0)),
+					const PhotoPicker(),
+					const Padding(padding: EdgeInsets.only(top: 20.0)),
+					const TextInput(hint: 'Naam'),
+					const Padding(padding: EdgeInsets.only(top: 20.0)),
+					TextButton(
+						onPressed: () {},
+						style: ButtonStyle(
+							backgroundColor: MaterialStateProperty.all(Colours.green),
+							foregroundColor: MaterialStateProperty.all(Colors.white),
+							shape: MaterialStateProperty.all(RoundedRectangleBorder(
+								borderRadius: BorderRadius.circular(15.0),
+							)),
+							padding: MaterialStateProperty.all(
+								const EdgeInsets.symmetric(
+									horizontal: 20.0,
+									vertical: 10.0
+								)
 							),
-							child: const Text(
-								'Toevoegen',
-								style: TextStyle(
-									fontSize: 20,
-								),
+						),
+						child: const Text(
+							'Toevoegen',
+							style: TextStyle(
+								fontSize: 20,
 							),
-						)
-					],
-				)
+						),
+					)
+				],
 			)
 		);
 	}

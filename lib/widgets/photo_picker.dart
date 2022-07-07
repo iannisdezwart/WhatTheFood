@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:what_the_food/colours.dart';
+import 'package:what_the_food/utilities/api_route.dart';
 
 class PhotoPickerController extends ChangeNotifier
 {
@@ -20,8 +21,9 @@ class PhotoPickerController extends ChangeNotifier
 class PhotoPicker extends StatefulWidget
 {
 	final PhotoPickerController controller;
+	final String? defaultPhotoFilePath;
 
-	const PhotoPicker({ Key? key, required this.controller }) : super(key: key);
+	const PhotoPicker({ Key? key, required this.controller, this.defaultPhotoFilePath }) : super(key: key);
 
 	@override
 	State<PhotoPicker>
@@ -32,6 +34,27 @@ class _PhotoPickerState extends State<PhotoPicker>
 {
 	ImagePicker imagePicker = ImagePicker();
 	ClipRRect? image;
+
+	@override
+	void
+	initState()
+	{
+		if (widget.defaultPhotoFilePath == null)
+		{
+			return;
+		}
+
+		Image img = Image.network(
+			apiRoute('/get-image', params: { 'file': widget.defaultPhotoFilePath }).toString()
+		);
+
+		image = ClipRRect(
+			borderRadius: BorderRadius.circular(10),
+			child: img,
+		);
+
+		super.initState();
+	}
 
 	void
 	editImage()

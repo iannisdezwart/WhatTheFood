@@ -3,6 +3,7 @@ import 'package:what_the_food/api/delete_dish.dart';
 import 'package:what_the_food/api/rate_dish.dart';
 import 'package:what_the_food/colours.dart';
 import 'package:what_the_food/entities/dish.dart';
+import 'package:what_the_food/screens/edit_dish.dart';
 import 'package:what_the_food/widgets/dish_image.dart';
 import 'package:what_the_food/widgets/header.dart';
 import 'package:what_the_food/widgets/rating.dart';
@@ -54,6 +55,14 @@ class _ShowDishState extends State<ShowDish> {
 		Navigator.pop(context);
 	}
 
+	Future<void>
+	editDishHandler()
+	async
+	{
+		Navigator.push(context, MaterialPageRoute(builder: (context) => EditDish(dish: dish)))
+			.then((_) => Navigator.pop(context));
+	}
+
 	@override
 	Widget
 	build(BuildContext context)
@@ -94,6 +103,29 @@ class _ShowDishState extends State<ShowDish> {
 					),
 					const Padding(padding: EdgeInsets.only(top: 20.0)),
 					TextButton(
+						onPressed: editDishHandler,
+						style: ButtonStyle(
+							backgroundColor: MaterialStateProperty.all(Colours.green),
+							shape: MaterialStateProperty.all(RoundedRectangleBorder(
+								borderRadius: BorderRadius.circular(15.0),
+							)),
+							padding: MaterialStateProperty.all(
+								const EdgeInsets.symmetric(
+									horizontal: 20.0,
+									vertical: 10.0
+								)
+							),
+						),
+						child: const Text(
+							'Bewerken',
+							style: TextStyle(
+								fontSize: 20,
+								color: Colors.white
+							),
+						),
+					),
+					const Padding(padding: EdgeInsets.only(top: 10.0)),
+					TextButton(
 						onPressed: deleteDishHandler,
 						style: ButtonStyle(
 							backgroundColor: MaterialStateProperty.all(Colours.red),
@@ -114,7 +146,7 @@ class _ShowDishState extends State<ShowDish> {
 								color: Colors.white
 							),
 						),
-					)
+					),
 				],
 			)
 		);

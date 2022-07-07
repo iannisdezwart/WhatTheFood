@@ -3,15 +3,24 @@ import 'package:what_the_food/colours.dart';
 
 class TextInput extends StatelessWidget
 {
+	final TextEditingController controller;
 	final String hint;
 
-	const TextInput({ Key? key, required this.hint }) : super(key: key);
+	TextInput({ Key? key, required this.controller, required this.hint, String? value })
+		: super(key: key)
+	{
+		if (value != null)
+		{
+			controller.text = value;
+		}
+	}
 
 	@override
 	Widget
 	build(BuildContext context)
 	{
 		return TextField(
+			controller: controller,
 			decoration: InputDecoration(
 				hintText: hint,
 				enabledBorder: OutlineInputBorder(

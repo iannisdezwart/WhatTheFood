@@ -1,9 +1,27 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:what_the_food/colours.dart';
+
+class PhotoPickerController extends ChangeNotifier
+{
+	File? file;
+
+	void
+	setImage(File f)
+	{
+		file = f;
+		notifyListeners();
+	}
+
+}
 
 class PhotoPicker extends StatefulWidget
 {
-	const PhotoPicker({ Key? key }) : super(key: key);
+	final PhotoPickerController controller;
+
+	const PhotoPicker({ Key? key, required this.controller }) : super(key: key);
 
 	@override
 	State<PhotoPicker>
@@ -13,11 +31,56 @@ class PhotoPicker extends StatefulWidget
 class _PhotoPickerState extends State<PhotoPicker>
 {
 	ImagePicker imagePicker = ImagePicker();
+	ClipRRect? image;
+
+	void
+	editImage()
+	async
+	{
+		XFile? file = await imagePicker.pickImage(source: ImageSource.gallery);
+
+		if (file == null)
+		{
+			return;
+		}
+
+		setState(()
+		{
+			File f = File(file.path);
+			widget.controller.setImage(f);
+
+			image = ClipRRect(
+				borderRadius: BorderRadius.circular(10),
+				child: Image.file(
+					f,
+					fit: BoxFit.cover,
+				),
+			);
+		});
+	}
 
 	@override
 	Widget
 	build(BuildContext context)
 	{
-		return const Text('PhotoPicker');
+		return SizedBox(
+			height: 200,
+			width: 300,
+			child: GestureDetector(
+				onTap: editImage,
+				child: DecoratedBox(
+					decoration: const BoxDecoration(
+						color: Colours.fadedBlue,
+						borderRadius: BorderRadius.all(Radius.circular(10)),
+					),
+					child: (image == null)
+						? const Icon(
+							Icons.photo_library,
+							color: Colors.white,
+						)
+						: image,
+				),
+			),
+		);
 	}
 }

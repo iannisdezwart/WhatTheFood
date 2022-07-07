@@ -1,39 +1,50 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:what_the_food/api/add_dish.dart';
+import 'package:what_the_food/api/delete_dish.dart';
+import 'package:what_the_food/api/rate_dish.dart';
 import 'package:what_the_food/colours.dart';
 import 'package:what_the_food/entities/dish.dart';
+import 'package:what_the_food/widgets/dish_image.dart';
 import 'package:what_the_food/widgets/header.dart';
-import 'package:what_the_food/widgets/photo_picker.dart';
-import 'package:what_the_food/widgets/text_input.dart';
+import 'package:what_the_food/widgets/rating.dart';
+import 'package:what_the_food/widgets/user_rating.dart';
 
-class AddDish extends StatefulWidget
+class ShowDish extends StatefulWidget
 {
-	const AddDish({ Key? key }) : super(key: key);
+	final Dish dish;
+
+	const ShowDish({ Key? key, required this.dish }) : super(key: key);
 
 	@override
-	State<AddDish> createState() => _AddDishState();
+	State<ShowDish> createState() => _ShowDishState();
 }
 
-class _AddDishState extends State<AddDish>
-{
-	final dishNameInputController = TextEditingController();
-	final photoPickerController = PhotoPickerController();
+class _ShowDishState extends State<ShowDish> {
+	late Dish dish;
+
+	@override
+	initState()
+	{
+		dish = widget.dish;
+		super.initState();
+	}
 
 	Future<void>
-	addDishHandler()
+	handleUserRating(num rating)
 	async
 	{
-		String base64EncodedFile = photoPickerController.file == null
-			? '' : base64Encode(photoPickerController.file!.readAsBytesSync());
+		setState(()
+		{
+			dish.yourRating = rating;
+		});
 
-		NewDish dish = NewDish(
-			name: dishNameInputController.text,
-			image: base64EncodedFile
-		);
+		await rateDish(dish, rating);
+	}
 
-		await addDish(dish);
+	Future<void>
+	deleteDishHandler()
+	async
+	{
+		await deleteDish(dish);
 
 		if (!mounted)
 		{
@@ -44,21 +55,13 @@ class _AddDishState extends State<AddDish>
 	}
 
 	@override
-	void
-	dispose()
-	{
-		dishNameInputController.dispose();
-		super.dispose();
-	}
-
-	@override
 	Widget
 	build(BuildContext context)
 	{
 		return Scaffold(
 			appBar: AppBar(
 				title: const Header(
-					title: 'Gerecht toevoegen',
+					title: 'Gerecht bekijken',
 					showBackButton: true,
 				),
 				titleSpacing: 0,
@@ -77,18 +80,23 @@ class _AddDishState extends State<AddDish>
 			body: ListView(
 				padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40.0),
 				children: [
-					PhotoPicker(controller: photoPickerController),
+					Center(child: Column(
+						children: [
+							DishImage(dish: dish),
+						]
+					)),
 					const Padding(padding: EdgeInsets.only(top: 20.0)),
-					TextInput(
-						hint: 'Naam',
-						controller: dishNameInputController,
+					Rating(rating: dish.rating),
+					const Padding(padding: EdgeInsets.only(top: 20.0)),
+					UserRating(
+						rating: dish.yourRating,
+						onRated: handleUserRating
 					),
 					const Padding(padding: EdgeInsets.only(top: 20.0)),
 					TextButton(
-						onPressed: addDishHandler,
+						onPressed: deleteDishHandler,
 						style: ButtonStyle(
-							backgroundColor: MaterialStateProperty.all(Colours.green),
-							foregroundColor: MaterialStateProperty.all(Colors.white),
+							backgroundColor: MaterialStateProperty.all(Colours.red),
 							shape: MaterialStateProperty.all(RoundedRectangleBorder(
 								borderRadius: BorderRadius.circular(15.0),
 							)),
@@ -100,9 +108,10 @@ class _AddDishState extends State<AddDish>
 							),
 						),
 						child: const Text(
-							'Toevoegen',
+							'Verwijderen',
 							style: TextStyle(
 								fontSize: 20,
+								color: Colors.white
 							),
 						),
 					)

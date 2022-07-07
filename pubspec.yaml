@@ -36,6 +36,8 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter_svg: ^1.1.1+1
   image_picker: ^0.8.5+3
+  http: ^0.13.4
+  device_info_plus: ^4.0.0
 
 dev_dependencies:
   flutter_test:
@@ -91,7 +93,4 @@ flutter:
   # see https://flutter.dev/custom-fonts/#from-packages
 
   assets:
-    - assets/header_art.svg
-    - assets/star.svg
-    - assets/drag_handle.svg
-    - assets/carbonara.png
+    - assets/

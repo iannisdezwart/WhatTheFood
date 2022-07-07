@@ -1,27 +1,39 @@
 import 'package:flutter/material.dart';
+import 'package:what_the_food/api/get_dishes.dart';
 import 'package:what_the_food/colours.dart';
 import 'package:what_the_food/entities/dish.dart';
 import 'package:what_the_food/screens/add_dish.dart';
+import 'package:what_the_food/screens/show_dish.dart';
 import 'package:what_the_food/widgets/draggable_dish_card.dart';
 import 'package:what_the_food/widgets/header.dart';
 
-class EditDishes extends StatefulWidget
+class ListDishes extends StatefulWidget
 {
-	final List<Dish> dishes;
-
-	const EditDishes({ Key? key, required this.dishes }) : super(key: key);
+	const ListDishes({ Key? key }) : super(key: key);
 
 	@override
-	State<EditDishes> createState() => _EditDishesState();
+	State<ListDishes> createState() => _ListDishesState();
 }
 
-class _EditDishesState extends State<EditDishes> {
-	late List<Dish> dishes;
+class _ListDishesState extends State<ListDishes> {
+	List<Dish> dishes = [];
+
+	void
+	loadDishes()
+	{
+		getDishes().then((loadedDishes) => setState(()
+		{
+			dishes = loadedDishes;
+		}));
+	}
 
 	@override
-	void initState() {
+	void
+	initState()
+	{
 		super.initState();
-		dishes = widget.dishes;
+		loadDishes();
+
 	}
 
 	@override
@@ -54,12 +66,16 @@ class _EditDishesState extends State<EditDishes> {
 							onReorder: (a, b) {},
 							scrollDirection: Axis.vertical,
 							shrinkWrap: true,
-							padding: const EdgeInsets.symmetric(vertical: 60.0),
+							padding: const EdgeInsets.symmetric(vertical: 40.0),
 							children: [
 								for (int i = 0; i < dishes.length; i++)
 									ListTile(
 										key: Key('$i'),
-										title: DraggableDishCard(dish: dishes[i])
+										title: DraggableDishCard(
+											dish: dishes[i],
+											onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ShowDish(dish: dishes[i])))
+												.then((_) => loadDishes()),
+										)
 									)
 							],
 						)
@@ -67,8 +83,10 @@ class _EditDishesState extends State<EditDishes> {
 				],
 			),
 			floatingActionButton: FloatingActionButton(
-				onPressed: () {
-					Navigator.push(context, MaterialPageRoute(builder: (context) => const AddDish()));
+				onPressed: ()
+				{
+					Navigator.push(context, MaterialPageRoute(builder: (context) => const AddDish()))
+						.then((_) => loadDishes());
 				},
 				backgroundColor: Colours.green,
 				child: const Icon(Icons.add),

@@ -1,15 +1,44 @@
 import 'package:flutter/material.dart';
+import 'package:what_the_food/api/dish_of_the_day.dart';
 import 'package:what_the_food/colours.dart';
 import 'package:what_the_food/entities/dish.dart';
 import 'package:what_the_food/screens/edit_dishes.dart';
+import 'package:what_the_food/screens/show_dish.dart';
 import 'package:what_the_food/widgets/header.dart';
 import 'package:what_the_food/widgets/dish_of_the_day.dart';
 
-class HomePage extends StatelessWidget
+class HomePage extends StatefulWidget
 {
-	final List<Dish> dishes;
+	final Dish dishOfTheDay;
 
-	const HomePage({ Key? key, required this.dishes }) : super(key: key);
+	const HomePage({ Key? key, required this.dishOfTheDay }) : super(key: key);
+
+	@override
+	State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+	late Dish dishOfTheDay;
+
+	@override
+	initState()
+	{
+		dishOfTheDay = widget.dishOfTheDay;
+		super.initState();
+	}
+
+	Future<void>
+	updateDishOfTheDay()
+	async
+	{
+		getDishOfTheDay().then((dish)
+		{
+			setState(()
+			{
+				dishOfTheDay = dish;
+			});
+		});
+	}
 
 	@override
 	Widget
@@ -31,20 +60,26 @@ class HomePage extends StatelessWidget
 				shadowColor: Colors.transparent,
 			),
 			body: ListView(
+				padding: const EdgeInsets.symmetric(vertical: 40.0, horizontal: 20.0),
 				children: [
-					const Padding(padding: EdgeInsets.only(top: 60.0)),
-					const DishOfTheDay(dish: Dish(
-						name: 'Pasta Carbonara',
-						image: 'assets/carbonara.png',
-						rating: 3.9
-					)),
-					const Padding(padding: EdgeInsets.only(top: 40.0)),
-					TextButton(
-						onPressed: () {
+					GestureDetector(
+						onTap: ()
+						{
 							Navigator.push(
 								context,
-								MaterialPageRoute(builder: (_) => EditDishes(dishes: dishes,))
-							);
+								MaterialPageRoute(builder: (context) => ShowDish(dish: dishOfTheDay))
+							).then((_) => updateDishOfTheDay());
+						},
+						child: DishOfTheDay(dish: dishOfTheDay),
+					),
+					const Padding(padding: EdgeInsets.only(top: 40.0)),
+					TextButton(
+						onPressed: ()
+						{
+							Navigator.push(
+								context,
+								MaterialPageRoute(builder: (_) => const ListDishes())
+							).then((_) => updateDishOfTheDay());
 						},
 						style: ButtonStyle(
 							backgroundColor: MaterialStateProperty.all(Colours.green),

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:what_the_food/entities/dish.dart';
-import 'package:what_the_food/screens/home_page.dart';
+import 'package:what_the_food/screens/splash_screen.dart';
 
 void
 main()
@@ -18,23 +17,7 @@ class App extends StatelessWidget
 	{
 		return const MaterialApp(
 			title: 'What The Food?!',
-			home: HomePage(dishes: [
-				Dish(
-					name: 'Pasta Carbonara',
-					image: 'assets/carbonara.png',
-					rating: 3.9,
-				),
-				Dish(
-					name: 'Pasta Carbonara',
-					image: 'assets/carbonara.png',
-					rating: 3.9,
-				),
-				Dish(
-					name: 'Pasta Carbonara',
-					image: 'assets/carbonara.png',
-					rating: 3.9,
-				),
-			],)
+			home: SplashScreen()
 		);
 	}
 }

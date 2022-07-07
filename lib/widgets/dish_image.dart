@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:what_the_food/colours.dart';
+import 'package:what_the_food/entities/dish.dart';
+import 'package:what_the_food/utilities/api_route.dart';
 
 class DishImage extends StatelessWidget
 {
-	final String name;
-	final String image;
+	final Dish dish;
 
-	const DishImage({ Key? key, required this.name, required this.image }) : super(key: key);
+	const DishImage({ Key? key, required this.dish }) : super(key: key);
 
 	@override
 	Widget
@@ -15,8 +16,8 @@ class DishImage extends StatelessWidget
 		return Stack(children: [
 			ClipRRect(
 				borderRadius: BorderRadius.circular(30),
-				child: Image.asset(
-					image,
+				child: Image.network(
+					apiRoute('/get-image', params: { 'file': dish.imageFilePath }).toString(),
 					width: 300,
 					height: 200,
 					fit: BoxFit.cover,
@@ -38,7 +39,7 @@ class DishImage extends StatelessWidget
 								crossAxisAlignment: CrossAxisAlignment.center,
 								children: [
 									Text(
-										name,
+										dish.name,
 										textAlign: TextAlign.center,
 										style: const TextStyle(
 											fontSize: 24,

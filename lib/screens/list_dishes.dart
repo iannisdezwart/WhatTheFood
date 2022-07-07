@@ -4,7 +4,7 @@ import 'package:what_the_food/colours.dart';
 import 'package:what_the_food/entities/dish.dart';
 import 'package:what_the_food/screens/add_dish.dart';
 import 'package:what_the_food/screens/show_dish.dart';
-import 'package:what_the_food/widgets/draggable_dish_card.dart';
+import 'package:what_the_food/widgets/dish_card.dart';
 import 'package:what_the_food/widgets/header.dart';
 
 class ListDishes extends StatefulWidget
@@ -43,7 +43,7 @@ class _ListDishesState extends State<ListDishes> {
 		return Scaffold(
 			appBar: AppBar(
 				title: const Header(
-					title: 'Gerechten bewerken',
+					title: 'Alle gerechten',
 					showBackButton: true,
 				),
 				titleSpacing: 0,
@@ -59,28 +59,22 @@ class _ListDishesState extends State<ListDishes> {
 				),
 				shadowColor: Colors.transparent,
 			),
-			body: ListView(
-				children: [
-					Center(
-						child: ReorderableListView(
-							onReorder: (a, b) {},
-							scrollDirection: Axis.vertical,
-							shrinkWrap: true,
-							padding: const EdgeInsets.symmetric(vertical: 40.0),
-							children: [
-								for (int i = 0; i < dishes.length; i++)
-									ListTile(
-										key: Key('$i'),
-										title: DraggableDishCard(
-											dish: dishes[i],
-											onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ShowDish(dish: dishes[i])))
-												.then((_) => loadDishes()),
-										)
-									)
-							],
-						)
-					),
-				],
+			body: SingleChildScrollView(
+				scrollDirection: Axis.vertical,
+				padding: const EdgeInsets.symmetric(vertical: 40.0),
+				child: Column(
+					children: [
+						for (int i = 0; i < dishes.length; i++)
+							ListTile(
+								key: Key('$i'),
+								title: DishCard(
+									dish: dishes[i],
+									onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ShowDish(dish: dishes[i])))
+										.then((_) => loadDishes()),
+								),
+							),
+					],
+				),
 			),
 			floatingActionButton: FloatingActionButton(
 				onPressed: ()

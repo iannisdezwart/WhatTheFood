@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:what_the_food/api/dish_of_the_day.dart';
 import 'package:what_the_food/colours.dart';
 import 'package:what_the_food/entities/dish.dart';
-import 'package:what_the_food/screens/edit_dishes.dart';
+import 'package:what_the_food/screens/list_dishes.dart';
 import 'package:what_the_food/screens/show_dish.dart';
 import 'package:what_the_food/widgets/header.dart';
 import 'package:what_the_food/widgets/dish_of_the_day.dart';

@@ -5,7 +5,7 @@ import 'package:what_the_food/entities/dish.dart';
 import 'package:what_the_food/utilities/api_route.dart';
 import 'package:what_the_food/utilities/app_config.dart';
 
-Future<void>
+Future<num>
 rateDish(Dish dish, num rating)
 async
 {
@@ -24,4 +24,6 @@ async
 	{
 		throw Exception(res.body);
 	}
+
+	return jsonDecode(res.body)['newRating'];
 }

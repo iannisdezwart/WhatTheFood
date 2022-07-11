@@ -38,7 +38,12 @@ class _ShowDishState extends State<ShowDish> {
 			dish.yourRating = rating;
 		});
 
-		await rateDish(dish, rating);
+		num newRating = await rateDish(dish, rating);
+
+		setState(()
+		{
+			dish.rating = newRating;
+		});
 	}
 
 	Future<void>

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_quill/flutter_quill.dart' show QuillController, Document;
 import 'package:what_the_food/api/delete_dish.dart';
 import 'package:what_the_food/api/rate_dish.dart';
 import 'package:what_the_food/colours.dart';
@@ -7,6 +8,7 @@ import 'package:what_the_food/screens/edit_dish.dart';
 import 'package:what_the_food/widgets/dish_image.dart';
 import 'package:what_the_food/widgets/header.dart';
 import 'package:what_the_food/widgets/rating.dart';
+import 'package:what_the_food/widgets/rich_text_view.dart';
 import 'package:what_the_food/widgets/user_rating.dart';
 
 class ShowDish extends StatefulWidget
@@ -21,12 +23,33 @@ class ShowDish extends StatefulWidget
 
 class _ShowDishState extends State<ShowDish> {
 	late Dish dish;
+	late QuillController descriptionInputController;
 
 	@override
 	initState()
 	{
 		dish = widget.dish;
+
+		if (dish.description.isNotEmpty)
+		{
+			descriptionInputController = QuillController(
+				document: Document.fromJson(dish.description),
+				selection: const TextSelection.collapsed(offset: 0));
+		}
+		else
+		{
+			descriptionInputController = QuillController.basic();
+		}
+
 		super.initState();
+	}
+
+	@override
+	void
+	dispose()
+	{
+		descriptionInputController.dispose();
+		super.dispose();
 	}
 
 	Future<void>
@@ -106,6 +129,8 @@ class _ShowDishState extends State<ShowDish> {
 						rating: dish.yourRating,
 						onRated: handleUserRating
 					),
+					const Padding(padding: EdgeInsets.only(top: 20.0)),
+					RichTextView(controller: descriptionInputController),
 					const Padding(padding: EdgeInsets.only(top: 20.0)),
 					TextButton(
 						onPressed: editDishHandler,

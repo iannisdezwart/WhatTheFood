@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:what_the_food/api/dish_of_the_day.dart';
+import 'package:what_the_food/api/skip_dish_of_the_day.dart';
 import 'package:what_the_food/colours.dart';
 import 'package:what_the_food/entities/dish.dart';
 import 'package:what_the_food/screens/list_dishes.dart';
@@ -31,12 +32,23 @@ class _HomePageState extends State<HomePage> {
 	updateDishOfTheDay()
 	async
 	{
-		getDishOfTheDay().then((dish)
+		Dish dish = await getDishOfTheDay();
+
+		setState(()
 		{
-			setState(()
-			{
-				dishOfTheDay = dish;
-			});
+			dishOfTheDay = dish;
+		});
+	}
+
+	Future<void>
+	skipDish()
+	async
+	{
+		Dish dish = await skipDishOfTheDay();
+
+		setState(()
+		{
+			dishOfTheDay = dish;
 		});
 	}
 
@@ -73,6 +85,30 @@ class _HomePageState extends State<HomePage> {
 						child: DishOfTheDay(dish: dishOfTheDay),
 					),
 					const Padding(padding: EdgeInsets.only(top: 40.0)),
+					TextButton(
+						onPressed: () => skipDish(),
+						style: ButtonStyle(
+							backgroundColor: MaterialStateProperty.all(Colours.green),
+							foregroundColor: MaterialStateProperty.all(Colors.white),
+							shape: MaterialStateProperty.all(RoundedRectangleBorder(
+								borderRadius: BorderRadius.circular(15.0),
+							)),
+							padding: MaterialStateProperty.all(
+								const EdgeInsets.symmetric(
+									horizontal: 20.0,
+									vertical: 10.0
+								)
+							),
+						),
+						child: const Text(
+							'Sla dit gerecht over',
+							style: TextStyle(
+								fontSize: 20,
+								color: Colors.white,
+							),
+						),
+					),
+					const Padding(padding: EdgeInsets.only(top: 10.0)),
 					TextButton(
 						onPressed: ()
 						{

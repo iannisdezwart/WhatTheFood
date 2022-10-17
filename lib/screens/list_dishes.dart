@@ -41,23 +41,10 @@ class _ListDishesState extends State<ListDishes> {
 	build(BuildContext context)
 	{
 		return Scaffold(
-			appBar: AppBar(
-				title: const Header(
-					title: 'Alle gerechten',
-					showBackButton: true,
-				),
-				titleSpacing: 0,
-				centerTitle: false,
-				backgroundColor: Colours.green,
-				toolbarHeight: 300,
-				automaticallyImplyLeading: false,
-				shape: const ContinuousRectangleBorder(
-					borderRadius: BorderRadius.only(
-						bottomLeft: Radius.circular(80),
-						bottomRight: Radius.circular(80),
-					),
-				),
-				shadowColor: Colors.transparent,
+			appBar: Header(
+				title: 'Alle gerechten',
+				showBackButton: true,
+				context: context,
 			),
 			body: SingleChildScrollView(
 				scrollDirection: Axis.vertical,

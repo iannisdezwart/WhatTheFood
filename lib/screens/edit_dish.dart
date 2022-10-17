@@ -81,23 +81,10 @@ class _EditDishState extends State<EditDish>
 	build(BuildContext context)
 	{
 		return Scaffold(
-			appBar: AppBar(
-				title: const Header(
-					title: 'Gerecht toevoegen',
-					showBackButton: true,
-				),
-				titleSpacing: 0,
-				centerTitle: false,
-				backgroundColor: Colours.green,
-				toolbarHeight: 300,
-				automaticallyImplyLeading: false,
-				shape: const ContinuousRectangleBorder(
-					borderRadius: BorderRadius.only(
-						bottomLeft: Radius.circular(80),
-						bottomRight: Radius.circular(80),
-					),
-				),
-				shadowColor: Colors.transparent,
+			appBar:  Header(
+				title: 'Gerecht toevoegen',
+				showBackButton: true,
+				context: context,
 			),
 			body: ListView(
 				padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40.0),

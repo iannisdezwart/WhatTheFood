@@ -18,7 +18,8 @@ class HomePage extends StatefulWidget
 	State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage>
+{
 	late Dish dishOfTheDay;
 
 	@override
@@ -57,19 +58,9 @@ class _HomePageState extends State<HomePage> {
 	build(BuildContext context)
 	{
 		return Scaffold(
-			appBar: AppBar(
-				title: const Header(title: 'What The Food?!'),
-				titleSpacing: 0,
-				centerTitle: false,
-				backgroundColor: Colours.green,
-				toolbarHeight: 300,
-				shape: const ContinuousRectangleBorder(
-					borderRadius: BorderRadius.only(
-						bottomLeft: Radius.circular(80),
-						bottomRight: Radius.circular(80),
-					),
-				),
-				shadowColor: Colors.transparent,
+			appBar: Header(
+				title: 'What The Food?!',
+				context: context,
 			),
 			body: ListView(
 				padding: const EdgeInsets.symmetric(vertical: 40.0, horizontal: 20.0),
